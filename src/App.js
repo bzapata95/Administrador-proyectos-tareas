@@ -1,13 +1,16 @@
 import React from "react";
 
 import ProyectoState from "./context/proyectos/proyectoState";
+import TareaState from "./context/tareas/tareaState";
 
 import Routes from "./routes";
 
 function App() {
   return (
     <ProyectoState>
-      <Routes />
+      <TareaState>
+        <Routes />
+      </TareaState>
     </ProyectoState>
   );
 }
