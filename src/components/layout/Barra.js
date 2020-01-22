@@ -1,16 +1,34 @@
 import React from "react";
 
-// import { Container } from './styles';
+import AuthContext from "../../context/autenticacion/authContext";
 
 export default function Barra() {
+  const { usuario, usuarioAutenticado, cerrarSesion } = React.useContext(
+    AuthContext
+  );
+
+  React.useEffect(() => {
+    const autenticacion = async () => {
+      await usuarioAutenticado();
+    };
+    autenticacion();
+  }, []);
+
   return (
     <header className="app-header">
-      <p className="nombre-usuario">
-        Hola <span>Bryan zapata</span>
-      </p>
+      {usuario && (
+        <p className="nombre-usuario">
+          Hola <span>{usuario.nombre}</span>
+        </p>
+      )}
 
       <nav className="nav-principal">
-        <a href="#!">Cerrar sesión</a>
+        <button
+          className="btn btn-blank cerrar-sesion"
+          onClick={() => cerrarSesion()}
+        >
+          Cerrar sesión
+        </button>
       </nav>
     </header>
   );

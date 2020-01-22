@@ -1,8 +1,21 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-// import { Container } from './styles';
 
-export default function NuevaCuenta() {
+import AlertaContext from "../../context/alertas/alertaContext";
+import AuthContext from "../../context/autenticacion/authContext";
+
+export default function NuevaCuenta({ history }) {
+  const { alerta, mostrarAlerta } = React.useContext(AlertaContext);
+  const { mensaje, autenticado, registrarUsuario } = React.useContext(
+    AuthContext
+  );
+
+  React.useEffect(() => {
+    if (autenticado) history.push("/proyectos");
+
+    if (mensaje) mostrarAlerta(mensaje.msg, mensaje.categoria);
+  }, [mensaje, autenticado, history]);
+
   const [usuario, setUsuario] = useState({
     nombre: "",
     email: "",
@@ -22,11 +35,35 @@ export default function NuevaCuenta() {
     const { nombre, email, password, confirmar } = usuario;
 
     if (!nombre || !email || !password || !confirmar) {
+      mostrarAlerta("Todos los campos son obligatorios", "alerta-error");
+      return;
     }
+
+    if (password.length < 6) {
+      mostrarAlerta(
+        "El password debe ser de al menos 6 caracteres",
+        "alerta-error"
+      );
+      return;
+    }
+
+    if (password !== confirmar) {
+      mostrarAlerta("Los passwords no son iguales", "alerta-error");
+      return;
+    }
+
+    registrarUsuario({
+      nombre,
+      email,
+      password
+    });
   };
 
   return (
     <div className="form-usuario">
+      {alerta && (
+        <div className={`alerta ${alerta.categoria}`}>{alerta.msg}</div>
+      )}
       <div className="contenedor-form sombra-dark">
         <h1>Obtener una cuenta</h1>
 

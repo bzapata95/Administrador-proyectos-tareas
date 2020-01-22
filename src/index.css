@@ -321,3 +321,21 @@ aside {
   display: block;
   opacity: 0.7;
 }
+
+.alerta {
+  padding: 24px 24px;
+  font-size: 18px;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.alerta-ok {
+  background-color: rgba(109, 211, 109);
+  color: rgb(2, 103, 2);
+}
+
+.alerta-error {
+  background-color: rgb(230, 78, 78);
+  color: var(--blanco);
+}
