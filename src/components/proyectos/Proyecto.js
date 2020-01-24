@@ -18,7 +18,7 @@ export default function Proyecto({ proyecto }) {
       <button
         type="button"
         className="btn btn-blank"
-        onClick={() => seleccionarProyecto(proyecto.id)}
+        onClick={() => seleccionarProyecto(proyecto._id)}
       >
         {proyecto.nombre}
       </button>

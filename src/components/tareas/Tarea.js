@@ -9,14 +9,15 @@ export default function Tarea({ tarea }) {
   const {
     eliminarTarea,
     obtenerTareas,
-    cambiarEstadoTarea,
+    actualizarTarea,
     guardarTareaActual
   } = useContext(tareaContext);
 
   // funcion que se ejecuta cuando el usuario preciona el btn de eliminar tarea
+  const [proyectoActual] = proyecto;
   const tareaEliminar = id => {
-    eliminarTarea(id);
-    obtenerTareas(proyecto[0].id);
+    eliminarTarea(id, proyectoActual._id);
+    obtenerTareas(proyectoActual._id);
   };
 
   // FUNCION QUE MODIFICA EL ESTADO DE LAS TAREAS
@@ -26,7 +27,7 @@ export default function Tarea({ tarea }) {
     } else {
       tarea.estado = true;
     }
-    cambiarEstadoTarea(tarea);
+    actualizarTarea(tarea);
   };
 
   const seleccionarTarea = tarea => {
@@ -66,7 +67,7 @@ export default function Tarea({ tarea }) {
         <button
           type="button"
           className="btn btn-secundario"
-          onClick={() => tareaEliminar(tarea.id)}
+          onClick={() => tareaEliminar(tarea._id)}
         >
           Eliminar
         </button>

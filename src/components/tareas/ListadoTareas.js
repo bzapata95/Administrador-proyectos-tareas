@@ -27,7 +27,7 @@ export default function ListadoTareas() {
         ) : (
           <TransitionGroup>
             {tareasproyecto.map(tarea => (
-              <CSSTransition key={tarea.id} timeout={1000} classNames="tarea">
+              <CSSTransition key={tarea._id} timeout={1000} classNames="tarea">
                 <Tarea tarea={tarea} />
               </CSSTransition>
             ))}
@@ -38,7 +38,7 @@ export default function ListadoTareas() {
       <button
         type="button"
         className="btn btn-eliminar"
-        onClick={() => eliminarProyecto(proyectoActual.id)}
+        onClick={() => eliminarProyecto(proyectoActual._id)}
       >
         Eliminar proyecto &times;
       </button>

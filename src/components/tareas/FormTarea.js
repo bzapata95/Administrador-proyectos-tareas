@@ -46,8 +46,7 @@ export default function FormTarea() {
     // Revisa si es edición o si es nueva tarea
     if (!tareaseleccionada) {
       // tarea nueva
-      tarea.proyectoId = proyectoActual.id;
-      tarea.estado = false;
+      tarea.proyecto = proyectoActual._id;
 
       agregarTarea(tarea);
     } else {

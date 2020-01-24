@@ -2,7 +2,9 @@ import React from "react";
 
 import AuthContext from "../../context/autenticacion/authContext";
 
-export default function Barra() {
+import { isAuthenticated } from "../../services/auth";
+
+export default function Barra({ history }) {
   const { usuario, usuarioAutenticado, cerrarSesion } = React.useContext(
     AuthContext
   );
@@ -12,7 +14,13 @@ export default function Barra() {
       await usuarioAutenticado();
     };
     autenticacion();
+
+    // eslint-disable-next-line
   }, []);
+
+  const handleExit = () => {
+    cerrarSesion();
+  };
 
   return (
     <header className="app-header">
@@ -23,10 +31,7 @@ export default function Barra() {
       )}
 
       <nav className="nav-principal">
-        <button
-          className="btn btn-blank cerrar-sesion"
-          onClick={() => cerrarSesion()}
-        >
+        <button className="btn btn-blank cerrar-sesion" onClick={handleExit}>
           Cerrar sesión
         </button>
       </nav>

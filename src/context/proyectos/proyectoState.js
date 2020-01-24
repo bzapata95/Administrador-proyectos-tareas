@@ -1,6 +1,6 @@
 import React, { useReducer } from "react";
 
-import uuid from "uuid";
+import api from "../../services/api";
 
 import proyectoContext from "./proyectoContext";
 import proyectoReducer from "./proyectoReducer";
@@ -10,20 +10,17 @@ import {
   AGREGAR_PROYECTO,
   VALIDAR_FORMULARIO,
   PROYECTO_ACTUAL,
-  ELIMINAR_PROYECTO
+  ELIMINAR_PROYECTO,
+  PROYECTO_ERROR
 } from "../../types";
 
 const ProyectoState = props => {
-  const proyectos = [
-    { id: 1, nombre: "Tienda virtual" },
-    { id: 2, nombre: "Intranet" }
-  ];
-
   const initialState = {
     proyectos: [],
     formulario: false,
     errorformulario: false,
-    proyecto: null
+    proyecto: null,
+    mensaje: null
   };
 
   // Dispatch para ejecutar las acciones
@@ -37,21 +34,44 @@ const ProyectoState = props => {
   };
 
   // Obteneder los poyectos
-  const obtenerProyectos = () => {
-    dispatch({
-      type: OBTENER_PROYECTOS,
-      payload: proyectos
-    });
+  const obtenerProyectos = async () => {
+    try {
+      const { data } = await api.get();
+      dispatch({
+        type: OBTENER_PROYECTOS,
+        payload: data.proyectos
+      });
+    } catch (error) {
+      const alerta = {
+        msg: "Hubo un error",
+        categoria: "alerta-error"
+      };
+      dispatch({
+        type: PROYECTO_ERROR,
+        payload: alerta
+      });
+    }
   };
 
-  const agregarNuevoProyecto = proyecto => {
-    proyecto.id = uuid.v4();
+  const agregarNuevoProyecto = async proyecto => {
+    try {
+      const resultado = await api.post("/proyectos", proyecto);
 
-    // Insertar el proyecto en el state
-    dispatch({
-      type: AGREGAR_PROYECTO,
-      payload: proyecto
-    });
+      // Insertar el proyecto en el state
+      dispatch({
+        type: AGREGAR_PROYECTO,
+        payload: resultado.data.proyecto
+      });
+    } catch (error) {
+      const alerta = {
+        msg: "Hubo un error",
+        categoria: "alerta-error"
+      };
+      dispatch({
+        type: PROYECTO_ERROR,
+        payload: alerta
+      });
+    }
   };
 
   const mostrarError = () => {
@@ -69,11 +89,23 @@ const ProyectoState = props => {
   };
 
   // Elimina un proyecto
-  const eliminarProyecto = proyectoId => {
-    dispatch({
-      type: ELIMINAR_PROYECTO,
-      payload: proyectoId
-    });
+  const eliminarProyecto = async proyectoId => {
+    try {
+      await api.delete(`/proyectos/${proyectoId}`);
+      dispatch({
+        type: ELIMINAR_PROYECTO,
+        payload: proyectoId
+      });
+    } catch (error) {
+      const alerta = {
+        msg: "Hubo un error",
+        categoria: "alerta-error"
+      };
+      dispatch({
+        type: PROYECTO_ERROR,
+        payload: alerta
+      });
+    }
   };
 
   return (
@@ -83,6 +115,7 @@ const ProyectoState = props => {
         formulario: state.formulario,
         errorformulario: state.errorformulario,
         proyecto: state.proyecto,
+        mensaje: state.mensaje,
         mostrarFormulario,
         obtenerProyectos,
         agregarNuevoProyecto,

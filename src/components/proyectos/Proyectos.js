@@ -15,6 +15,8 @@ export default function Proyectos() {
       await usuarioAutenticado();
     };
     autenticacion();
+
+    // eslint-disable-next-line
   }, []);
 
   return (

@@ -14,6 +14,8 @@ export default function NuevaCuenta({ history }) {
     if (autenticado) history.push("/proyectos");
 
     if (mensaje) mostrarAlerta(mensaje.msg, mensaje.categoria);
+
+    // eslint-disable-next-line
   }, [mensaje, autenticado, history]);
 
   const [usuario, setUsuario] = useState({
