@@ -5,6 +5,12 @@ MERN TASK
 
 <p align="center">Es un proyecto que se encarga de registrar poyectos y añadir tareas para luego marcar como realizadas</p>
 
+<p align="center">
+  <a href="https://opensource.org/licenses/MIT">
+    <img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License MIT">
+  </a>
+</p>
+
 [//]: # "Add your gifs/images here:"
 
 <div>
